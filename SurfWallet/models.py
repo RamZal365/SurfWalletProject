@@ -1,4 +1,3 @@
-from cities.models import City
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -44,6 +43,7 @@ class Spot(models.Model):
     long_description = models.TextField()
 
     # Info of the location of the spot
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    country = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
