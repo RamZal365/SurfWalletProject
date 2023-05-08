@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'SurfWallet.apps.SurfwalletConfig',
+    'SurfWallet.apps.SurfWalletConfig',
 ]
 
 MIDDLEWARE = [

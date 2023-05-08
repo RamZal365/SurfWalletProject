@@ -1,38 +1,49 @@
+from cities.models import City
 from django.contrib.auth.models import User
 from django.db import models
 
 
-# class Song(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     tempo = models.IntegerField()
-#     time_signature_top = models.IntegerField()
-#     time_signature_bottom = models.IntegerField()
-#     CLEF_OPTIONS = (
-#         ('G_CLEF', 'G'),
-#         ('C_CLEF', 'C'),
-#         ('F_CLEF', 'F'),
-#     )
-#     clef = models.TextField(choices=CLEF_OPTIONS)
-#     sharps = models.ManyToManyField('Note', through='SharpNote', related_name='songs')
-#
-#
-# class Bar(models.Model):
-#     song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='bars')
-#     number = models.PositiveIntegerField()
-#
-#
-# class Note(models.Model):
-#     bar = models.ForeignKey(Bar, on_delete=models.CASCADE, related_name='notes')
-#     number = models.PositiveIntegerField()
-#     name = models.CharField(max_length=10)
-#     octave = models.PositiveIntegerField()
-#     time = models.PositiveIntegerField()
-#
-#
-# class SharpNote(models.Model):
-#     song = models.ForeignKey(Song, on_delete=models.CASCADE)
-#     note = models.ForeignKey(Note, on_delete=models.CASCADE)
-#     order = models.PositiveIntegerField()
-#
-#     class Meta:
-#         ordering = ['order']
+class SurfBoard(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    brand = models.CharField(max_length=100)
+    description = models.CharField(max_length=100)
+
+    # Measured in feet (ft)
+    length = models.FloatField()
+
+    # Measured in inches (in)
+    width = models.FloatField()
+    thickness = models.FloatField()
+
+    # Measured in liters (L)
+    volume = models.FloatField()
+
+
+class WetSuit(models.Model):
+    brand = models.CharField(max_length=100)
+
+    # Measured in feet (ft)
+    height = models.FloatField()
+
+    # Measured in kilograms (kg)
+    weight = models.FloatField()
+
+    # Measured in inches (in)
+    chest = models.FloatField()
+    waist = models.FloatField()
+
+    # Measured in millimeters (mm)
+    chest_thickness = models.FloatField()
+    extremities_thickness = models.FloatField()
+
+
+class Spot(models.Model):
+    name = models.CharField(max_length=100)
+    short_description = models.CharField(max_length=100)
+    long_description = models.TextField()
+
+    # Info of the location of the spot
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
