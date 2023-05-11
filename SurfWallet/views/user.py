@@ -1,34 +1,14 @@
-from rest_framework import viewsets, permissions
-from rest_framework import status, views, response
-from rest_framework import authentication
-from django.contrib.auth.models import User
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import authenticate, login, logout
+
+from rest_framework import viewsets, permissions, authentication, views, response, status
 from rest_framework.authtoken.models import Token
 
-from SurfWallet.models import SurfBoard, WetSuit, Spot
-from SurfWallet.serializers import SurfBoardSerializer, WetSuitSerializer, SpotSerializer, UserSerializer
-
-
-class SurfBoardViewSet(viewsets.ModelViewSet):
-    queryset = SurfBoard.objects.all()
-    serializer_class = SurfBoardSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class WetSuitViewSet(viewsets.ModelViewSet):
-    queryset = WetSuit.objects.all()
-    serializer_class = WetSuitSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class SpotViewSet(viewsets.ModelViewSet):
-    queryset = Spot.objects.all()
-    serializer_class = SpotSerializer
-    permission_classes = [permissions.AllowAny]
+from SurfWallet.serializers.user_serializer import UserSerializer
+from SurfWallet.models.user import CustomUser
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAdminUser, ]
     authentication_classes = [authentication.BasicAuthentication, ]

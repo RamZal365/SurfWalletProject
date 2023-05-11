@@ -18,7 +18,10 @@ from django.urls import path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
-from SurfWallet.views import SurfBoardViewSet, WetSuitViewSet, SpotViewSet, UserViewSet, LoginView, LogoutView
+from SurfWallet.views.spot import SpotViewSet
+from SurfWallet.views.surfboard import SurfBoardViewSet
+from SurfWallet.views.user import UserViewSet, LoginView, LogoutView
+from SurfWallet.views.wetsuit import WetSuitViewSet
 
 router = routers.DefaultRouter()
 router.register('surfboards', SurfBoardViewSet)
