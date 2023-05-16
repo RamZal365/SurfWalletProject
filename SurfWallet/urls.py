@@ -20,7 +20,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from SurfWallet.views.spot import SpotViewSet
 from SurfWallet.views.surfboard import SurfBoardViewSet
-from SurfWallet.views.user import UserViewSet, LoginView, LogoutView
+from SurfWallet.views.user import UserViewSet, LoginView, LogoutView, SignupViewSet
 from SurfWallet.views.wetsuit import WetSuitViewSet
 
 router = routers.DefaultRouter()
@@ -28,6 +28,7 @@ router.register('surfboards', SurfBoardViewSet)
 router.register('wetsuits', WetSuitViewSet)
 router.register('spots', SpotViewSet)
 router.register('users', UserViewSet)
+router.register('signup', SignupViewSet, basename="signup")
 
 urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),

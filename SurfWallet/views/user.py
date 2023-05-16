@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from rest_framework import viewsets, permissions, authentication, views, response, status
 from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
 
 from SurfWallet.serializers.user_serializer import UserSerializer
 from SurfWallet.models.user import CustomUser
@@ -13,6 +14,18 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAdminUser, ]
     authentication_classes = [authentication.BasicAuthentication, ]
 
+class SignupViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+
+        # set the session to the new user ID
+        request.session['user_id'] = user.id
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class LoginView(views.APIView):
     permission_classes = [permissions.AllowAny]
@@ -34,7 +47,8 @@ class LoginView(views.APIView):
         if user:
             # para loguearse una sola vez
             login(request, user)
-            return response.Response({'message': 'Correct user and password'}, status=status.HTTP_200_OK)
+            return response.Response({'token': token.key, 'message': 'Correct user and password'},
+                                     status=status.HTTP_200_OK)
             # return response.Response({'token': token.key}, status=status.HTTP_200_OK)
 
         # Return a server error if something goes wrong and gets to this line
