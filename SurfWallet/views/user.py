@@ -21,11 +21,12 @@ class SignupViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        token, _ = Token.objects.get_or_create(user=user)
 
         # set the session to the new user ID
         request.session['user_id'] = user.id
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return response.Response({'token': token.key}, status=status.HTTP_201_CREATED)
 
 class LoginView(views.APIView):
     permission_classes = [permissions.AllowAny]
