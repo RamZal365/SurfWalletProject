@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 
 from rest_framework import viewsets, permissions, authentication, views, response, status
+from rest_framework.authtoken.admin import User
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
@@ -61,7 +62,14 @@ class LogoutView(views.APIView):
 
     def post(self, request):
         # Delete the token from the request
-        request.user.auth_token.delete()
-        logout(request)
+        if 'userToken' in request.data:
+            try:
+                request.user = User.objects.get(auth_token=request.data['userToken'])
+                request.user.auth_token.delete()
+                logout(request)
+                return response.Response({'message': 'Logged out correctly!'}, status=status.HTTP_200_OK)
+            except Exception as e:
+                print(e)
+                return response.Response({'message': 'No user logged in'}, status=status.HTTP_400_BAD_REQUEST)
+
         # Return an OK message
-        return response.Response({'message': 'Logged out correctly!'}, status=status.HTTP_200_OK)
