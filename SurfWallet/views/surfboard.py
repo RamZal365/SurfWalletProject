@@ -9,3 +9,5 @@ class SurfBoardViewSet(viewsets.ModelViewSet):
     serializer_class = SurfBoardSerializer
     permission_classes = [permissions.AllowAny]
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request)
